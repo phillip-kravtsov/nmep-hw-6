@@ -61,8 +61,10 @@ class ImageDataset(object):
         return batch, batch_y
 
     def load_image(self, filename):
-        image = misc.imread(filename)
+        image = misc.imread(filename, mode='RGB')
+    
         hw = image.shape[:-1]
+        #print(image.shape)
         
         if hw[0] > hw[1]:
             hd = (hw[0] - hw[1])//2
