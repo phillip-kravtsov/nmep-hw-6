@@ -2,7 +2,7 @@ import numpy as np
 import random
 import os
 from glob import glob
-from skimage import io
+from scipy import misc
 from skimage.transform import resize
 
 class ImageDataset(object):
@@ -61,7 +61,7 @@ class ImageDataset(object):
         return batch, batch_y
 
     def load_image(self, filename):
-        image = io.imread(filename)
+        image = misc.imread(filename)
         hw = image.shape[:-1]
         
         if hw[0] > hw[1]:
