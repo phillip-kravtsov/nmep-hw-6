@@ -149,7 +149,8 @@ class TransferModel(object):
                         [self.loss, self.accuracy, self.summary, self.train_step],
                         feed_dict=feed_dict)
                     self.train_writer.add_summary(batch_sum, idx)
-                    print("idx {} loss {} acc {}".format(idx, batch_loss, batch_acc))
+                    if idx % 15 == 0:
+                        print("idx {} loss {} acc {}".format(idx, batch_loss, batch_acc))
             self.val_dataset.new_epoch()
 
             while True:
@@ -205,7 +206,9 @@ class TransferModel(object):
         pprint(loaded_train_config)
         self.sess.run(tf.global_variables_initializer())
         checkpoint_dir = os.path.join(self.model_dir, 'ckpts')
+        print("Checkpoint dir is {}".format(checkpoint_dir))
         checkpoint_path = tf.train.latest_checkpoint(checkpoint_dir)
+        print("checkpoint path is {}".format(checkpoint_path))
         start_epoch = 1 + int(checkpoint_path.split('.ckpt')[1].split('-')[1])
         print("Restoring from {} with epoch {}".format(checkpoint_path, start_epoch))
         self.saver.restore(self.sess, checkpoint_path)
@@ -215,6 +218,6 @@ class TransferModel(object):
         self.saver.save(
             self.sess,
             os.path.join(self.model_dir, 'ckpts/model.ckpt'),
-            global_step=idx,
+            global_step=epoch,
             write_meta_graph=not bool(epoch)
         )

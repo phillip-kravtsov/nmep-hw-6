@@ -2,7 +2,7 @@ import numpy as np
 import random
 import os
 from glob import glob
-from skimage import io
+from scipy import misc
 from skimage.transform import resize
 
 class ImageDataset(object):
@@ -44,9 +44,10 @@ class ImageDataset(object):
         return batch, batch_y
 
     def load_image(self, filename):
-        image = io.imread(filename)
+        image = misc.imread(filename, 'RGB')
         hw = image.shape[:-1]
-        #Think about how you want to load an image before randomly cropping it to self.h x self.w size
+        #Think about how you want to resize an image before randomly cropping it to self.h x self.w size
+        
          
         resized = resize(crop, ...?)
         return resized
