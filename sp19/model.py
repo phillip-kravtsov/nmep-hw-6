@@ -20,7 +20,7 @@ class TransferModel(object):
         self.set_model_params(self.config)
         if not flags.train:
             self.test_dataset = ImageDataset(
-                data_dir=os.path.join(self.data_dir, 'test'),
+                data_dir=os.path.join(self.data_dir, 'val'),
                 h=self.height,
                 w=self.width,
                 batch_size=self.batch_size,
@@ -70,7 +70,7 @@ class TransferModel(object):
             img_sum = tf.summary.image('train_images', self.inputs)
         img_summary = None
         self.summary = tf.summary.merge_all()
-        self.opt = tf.train.MomentumOptimizer(learning_rate=self.config.learning_rate, momentum=self.config.beta1)
+        self.opt = tf.train.AdamOptimizer(learning_rate=self.config.learning_rate, beta1=self.config.beta1)
         self.saver = tf.train.Saver(max_to_keep=10)
 
     def make_train_graph(self):
@@ -112,7 +112,7 @@ class TransferModel(object):
             data_dir=os.path.join(self.data_dir, 'val'),
             h=self.height,
             w=self.width,
-            batch_size=8,
+            batch_size=32,
             crop_proportion=None
         )
         return start_epoch

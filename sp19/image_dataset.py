@@ -31,7 +31,10 @@ class ImageDataset(object):
         self.get_label_dict()
         self.do_y = True
         self.filenames = glob(os.path.join(self.data_dir, glob_pattern))
+        if 'val' in data_dir:
+            self.filenames = self.filenames[:210]
         self.N = len(self.filenames)
+        print(self.N)
         self.num_labels=len(self.label_list)
         self.labels = [self.label_dict[f.split('/')[-2]] for f in self.filenames]
 
